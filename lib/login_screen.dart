@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delta/sign_up.dart';
+import 'package:delta/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -85,6 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // Successful login
         print('Login successful!');
         // Navigate to home screen or do something else
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       } else {
         // Failed login
         const snackBar = SnackBar(
