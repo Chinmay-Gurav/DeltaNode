@@ -1,6 +1,6 @@
 # delta
 
-A new Flutter project.
+Zimmedar Nagarik
 
 ## Getting Started
 
