@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
@@ -27,11 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                controller: _usernameController,
+                decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter your email';
+                    return 'Please enter your username';
                   }
                   return null;
                 },
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    login(_emailController.text, _passwordController.text);
+                    login(_usernameController.text, _passwordController.text);
                   }
                 },
               ),
@@ -62,20 +62,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login(String email, String password) {
+  void login(String uname, String password) {
     FirebaseFirestore.instance
         .collection('users')
-        .where('uname', isEqualTo: email)
+        .where('uname', isEqualTo: uname)
         .where('password', isEqualTo: password)
         .get()
         .then((querySnapshot) {
-      if (querySnapshot.docs.length == 1) {
+      if (querySnapshot.size == 1) {
         // Successful login
         print('Login successful!');
         // Navigate to home screen or do something else
       } else {
         // Failed login
-        print('Invalid email or password');
+        const snackBar = SnackBar(
+          content: Text('Invalid username or password'),
+          duration: Duration(seconds: 3),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }).catchError((error) {
       // Error occurred while querying Firestore
