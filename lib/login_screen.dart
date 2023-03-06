@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delta/sign_up.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,6 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
               ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                child: const Text('Sign Up'),
+                onPressed: () {
+                  // Navigate to sign-up screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  );
+                },
+              )
             ],
           ),
         ),
