@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "846324731937",
+    "project_id": "deltanode-a955c",
+    "storage_bucket": "deltanode-a955c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846324731937:android:1262b3a97f00fb89ea1360",
+        "android_client_info": {
+          "package_name": "com.example.delta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846324731937-q39og19k1e71gd62of3vupuigbommfc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_yDQ4aQ2pEnjwtOM0Oou4VPs2L3fI0TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846324731937-q39og19k1e71gd62of3vupuigbommfc8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
