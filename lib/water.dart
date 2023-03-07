@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Road extends StatefulWidget {
-  const Road({super.key});
+class Water extends StatefulWidget {
+  const Water({super.key});
 
   @override
-  State<Road> createState() => _RoadState();
+  State<Water> createState() => _WaterState();
 }
 
-class _RoadState extends State<Road> {
+class _WaterState extends State<Water> {
   final _formKey = GlobalKey<FormState>();
   late String _subject;
   late String _description;
@@ -18,7 +17,7 @@ class _RoadState extends State<Road> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Road Complaint'),
+        title: const Text('Water Complaint'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,7 +30,7 @@ class _RoadState extends State<Road> {
                 decoration: const InputDecoration(labelText: 'Subject'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter a subject';
+                    return 'Please enter the subject of your issue';
                   }
                   return null;
                 },
@@ -44,7 +43,7 @@ class _RoadState extends State<Road> {
                 decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter a description';
+                    return 'Please enter a description of your issue!';
                   }
                   return null;
                 },
@@ -75,7 +74,7 @@ class _RoadState extends State<Road> {
         'subject': _subject,
         'description': _description,
         'timestamp': DateTime.now(),
-        'type': 'road',
+        'type': 'water',
       });
 
       // Show a success message and go back to the previous screen

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:delta/road.dart';
+import 'package:delta/water.dart';
 
 class Logc extends StatefulWidget {
   const Logc({super.key});
@@ -47,7 +48,14 @@ class _LogcState extends State<Logc> {
             },
             child: _buildSquareButton(context, 'Road Dept', Icons.car_repair),
           ),
-          _buildSquareButton(context, 'Water Dept', Icons.water),
+          GestureDetector(
+            onTap: () {
+              // Navigate to the Road Log Complaint page
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Water()));
+            },
+            child: _buildSquareButton(context, 'Water Dept', Icons.water),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);

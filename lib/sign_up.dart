@@ -14,6 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _addrController = TextEditingController();
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -21,6 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
       final lastName = _lastNameController.text;
       final uname = _emailController.text;
       final password = _passwordController.text;
+      final addr = _addrController.text;
 
       final userRef = FirebaseFirestore.instance.collection('users').doc(uname);
       final userDoc = await userRef.get();
@@ -37,7 +39,8 @@ class _SignUpPageState extends State<SignUpPage> {
           'lastName': lastName,
           'uname': uname,
           'password': password,
-          'admin': false
+          'admin': false,
+          'addr': addr,
         });
 
         Navigator.pop(context);
@@ -78,6 +81,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _addrController,
+                decoration: const InputDecoration(
+                  labelText: 'Address/Colony',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your Addr/Colony';
                   }
                   return null;
                 },
