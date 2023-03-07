@@ -1,4 +1,5 @@
 import 'package:delta/logc.dart';
+import 'package:delta/main.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     // Calculate the number of columns based on screen size
@@ -18,13 +20,58 @@ class _HomePageState extends State<HomePage> {
     final gridCount = (screenWidth / 120).floor();
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Home'),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            // Handle menu button press
+            _scaffoldKey.currentState?.openDrawer();
           },
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 80,
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Your Account'),
+              onTap: () {
+                // Handle menu item 1
+              },
+            ),
+            ListTile(
+              title: const Text('Settings'),
+              onTap: () {
+                // Handle menu item 2
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                // Handle menu item 3
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                );
+              },
+            ),
+          ],
         ),
       ),
       body: GridView.count(
@@ -33,48 +80,61 @@ class _HomePageState extends State<HomePage> {
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         children: [
-          GestureDetector(
-            onTap: () {
-              // Navigate to the Log Complaint page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Logc()),
-              );
-            },
-            child: _buildSquareButton(
-                context, 'Log Complaint', Icons.edit_document),
-          ),
+          _buildSquareButton(context, 'Log Complaint', Icons.edit_document, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Logc()),
+            );
+          }),
           _buildSquareButton(
-              context, 'My Complaint Status', Icons.hourglass_bottom),
-          _buildSquareButton(context, 'Suggestion/Feedback', Icons.feedback),
+              context, 'My Complaint Status', Icons.hourglass_bottom, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Logc()),
+            );
+          }),
+          _buildSquareButton(context, 'Suggestion/Feedback', Icons.feedback,
+              () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Logc()),
+            );
+          }),
         ],
       ),
     );
   }
 
-  Widget _buildSquareButton(
-      BuildContext context, String label, IconData iconData) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: const BoxDecoration(
-        color: Colors.blue,
+  //Button format
+  Widget _buildSquareButton(BuildContext context, String label,
+      IconData iconData, VoidCallback onPressed) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        minimumSize: const Size(100, 100),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            iconData,
-            color: Colors.white,
+          Expanded(
+            flex: 2,
+            child: Icon(
+              iconData,
+              color: Colors.white,
+              size: 32,
+            ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+            ),
           ),
         ],
       ),
