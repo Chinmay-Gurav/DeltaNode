@@ -1,6 +1,6 @@
 import 'package:delta/logc.dart';
-import 'package:delta/main.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,12 +63,14 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               title: const Text('Logout'),
-              onTap: () {
-                // Handle menu item 3
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyApp()),
-                );
+              onTap: () async {
+                // Handle LogOut
+                // Clear the user's session data
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+
+                // Navigate the user back to the login screen
+                Navigator.pushReplacementNamed(context, '/main');
               },
             ),
           ],
