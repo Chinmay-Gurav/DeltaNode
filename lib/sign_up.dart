@@ -82,11 +82,20 @@ class _SignUpPageState extends State<SignUpPage> {
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
         );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sign up Successful!')),
+        );
       } on FirebaseAuthException catch (e) {
         print('Sign up failed: $e');
         // Display a snackbar with an error message
+        String errorMessage;
+        if (e.code == 'weak-password') {
+          errorMessage = 'Password should be at least 6 characters';
+        } else {
+          errorMessage = 'Sign up failed!';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sign up failed!')),
+          SnackBar(content: Text(errorMessage)),
         );
       } finally {
         setState(() {
