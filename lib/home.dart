@@ -1,4 +1,5 @@
 import 'package:delta/logc.dart';
+import 'package:delta/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -97,10 +98,10 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSquareButton(context, 'Suggestion/Feedback', Icons.feedback,
               () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const Logc()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FeedbackPage()),
+            );
           }),
         ],
       ),
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
             ),
           ),

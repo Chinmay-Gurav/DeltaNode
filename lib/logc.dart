@@ -69,7 +69,7 @@ class _LogcState extends State<Logc> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
             ),
           ),
