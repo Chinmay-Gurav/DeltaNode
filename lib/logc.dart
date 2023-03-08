@@ -19,12 +19,6 @@ class _LogcState extends State<Logc> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log Complaint'),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            // Handle menu button press
-          },
-        ),
       ),
       body: GridView.count(
         crossAxisCount: gridCount,
@@ -32,56 +26,52 @@ class _LogcState extends State<Logc> {
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         children: [
-          GestureDetector(
-            onTap: () {
-              // Navigate to the Road Log Complaint page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Road()));
-            },
-            child: _buildSquareButton(context, 'Road Dept', Icons.car_repair),
-          ),
-          GestureDetector(
-            onTap: () {
-              // Navigate to the Road Log Complaint page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Water()));
-            },
-            child: _buildSquareButton(context, 'Water Dept', Icons.water),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Go back'),
-          ),
+          _buildSquareButton(context, 'Road Dept', Icons.car_repair, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Road()),
+            );
+          }),
+          _buildSquareButton(context, 'Water Dept', Icons.water, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Water()),
+            );
+          }),
         ],
       ),
     );
   }
 
-  Widget _buildSquareButton(
-      BuildContext context, String label, IconData iconData) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: const BoxDecoration(
-        color: Colors.blue,
+  Widget _buildSquareButton(BuildContext context, String label,
+      IconData iconData, VoidCallback onPressed) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        minimumSize: const Size(100, 100),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            iconData,
-            color: Colors.white,
+          Expanded(
+            flex: 2,
+            child: Icon(
+              iconData,
+              color: Colors.white,
+              size: 32,
+            ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontSize: 13,
+                  ),
+            ),
           ),
         ],
       ),
