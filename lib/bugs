@@ -1,19 +1,24 @@
 Need to do: 
-
+<!-- ---------------------------------------------------------------------------------------------------- -->
 logc module:-
-1. user info store using shared_preferences --> DONE
-2. pick image and take image
-3. save addr --> DONE
-4. add addr
-
+1. user info store using shared_preferences     -->DONE
+2. pick image and take image                    -->
+3. save addr                                    -->DONE
+4. add addr                                     -->DONE
+5. addr dropdown                                -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
 admin module:-
-
+<!-- ----------------------------------------------------------------------------------------------------- -->
 feedback module:-
 
 1. styling
+<!-- ----------------------------------------------------------------------------------------------------- -->
+settings module:-
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
 
 login module:-
 
 1. forgot password
 2. firebase auth and firestore connectivity -->DONE
-3. exception handling during sign up
+3. exception handling during sign up        -->DONE
