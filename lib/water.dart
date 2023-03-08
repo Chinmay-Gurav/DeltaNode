@@ -77,7 +77,7 @@ class _WaterState extends State<Water> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      String? addr = await getUserAddress(uid);
+      List addr = await getUserAddress(uid);
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -86,7 +86,7 @@ class _WaterState extends State<Water> {
         'timestamp': DateTime.now(),
         'type': 'water',
         'user': uid,
-        'address': addr,
+        'address': addr[0],
       });
 
       // Show a success message and go back to the previous screen
@@ -120,9 +120,9 @@ class _WaterState extends State<Water> {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  Future<String> getUserAddress(String? username) async {
+  Future<List> getUserAddress(String? username) async {
     DocumentSnapshot snapshot = await usersCollection.doc(username).get();
-    String address = snapshot.get('addr');
+    List address = snapshot.get('addr');
     return address;
   }
 }
