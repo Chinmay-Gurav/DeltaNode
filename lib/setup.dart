@@ -30,7 +30,6 @@ class _SetState extends State<Set> {
       final addr = _addrController.text;
 
       final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-      final userDoc = await userRef.get();
 
       await userRef.set({
         'firstName': firstName,
@@ -38,12 +37,15 @@ class _SetState extends State<Set> {
         'admin': false,
         'addr': [addr],
       });
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
+      navigate();
     }
+  }
+
+  void navigate() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
   }
 
   @override
