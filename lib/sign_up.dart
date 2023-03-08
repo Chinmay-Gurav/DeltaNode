@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:delta/login_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -10,43 +11,11 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _addrController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
 
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      final firstName = _firstNameController.text;
-      final lastName = _lastNameController.text;
-      final uname = _emailController.text;
-      final password = _passwordController.text;
-      final addr = _addrController.text;
-
-      final userRef = FirebaseFirestore.instance.collection('users').doc(uname);
-      final userDoc = await userRef.get();
-
-      if (userDoc.exists) {
-        const snackBar = SnackBar(
-          content: Text('Username not available!'),
-          duration: Duration(seconds: 3),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        await userRef.set({
-          'firstName': firstName,
-          'lastName': lastName,
-          'uname': uname,
-          'password': password,
-          'admin': false,
-          'addr': addr,
-        });
-
-        Navigator.pop(context);
-      }
-    }
-  }
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,83 +23,76 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(
         title: const Text('Sign Up'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(
-                  labelText: 'First Name',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _signUp,
+                    child: const Text('Sign Up'),
+                  ),
+                ],
               ),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Last Name',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your last name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _addrController,
-                decoration: const InputDecoration(
-                  labelText: 'Address/Colony',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your Addr/Colony';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your Username';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Sign Up'),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
+  }
+
+  void _signUp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final userCredential = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        print('Sign up successful');
+        // TODO: Navigate to set-up page after successful sign-up
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      } on FirebaseAuthException catch (e) {
+        print('Sign up failed: $e');
+        // Display a snackbar with an error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sign up failed!')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }

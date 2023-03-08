@@ -10,7 +10,7 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
-  String? userinfo;
+  String? uid;
   @override
   void initState() {
     super.initState();
@@ -77,7 +77,7 @@ class _WaterState extends State<Water> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      String? addr = await getUserAddress(userinfo);
+      String? addr = await getUserAddress(uid);
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -85,7 +85,7 @@ class _WaterState extends State<Water> {
         'description': _description,
         'timestamp': DateTime.now(),
         'type': 'water',
-        'uname': userinfo,
+        'user': uid,
         'address': addr,
       });
 
@@ -113,7 +113,7 @@ class _WaterState extends State<Water> {
 
   void getData() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    userinfo = pref.getString('uname');
+    uid = pref.getString('uid');
     setState(() {});
   }
 

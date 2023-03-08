@@ -10,7 +10,7 @@ class Road extends StatefulWidget {
 }
 
 class _RoadState extends State<Road> {
-  String? userinfo;
+  String? uid;
   @override
   void initState() {
     super.initState();
@@ -77,7 +77,7 @@ class _RoadState extends State<Road> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      String? addr = await getUserAddress(userinfo);
+      String? addr = await getUserAddress(uid);
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -85,7 +85,7 @@ class _RoadState extends State<Road> {
         'description': _description,
         'timestamp': DateTime.now(),
         'type': 'road',
-        'username': userinfo,
+        'user': uid,
         'address': addr,
       });
 
@@ -113,7 +113,7 @@ class _RoadState extends State<Road> {
 
   void getData() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    userinfo = pref.getString('uname');
+    uid = pref.getString('uid');
     setState(() {});
   }
 
