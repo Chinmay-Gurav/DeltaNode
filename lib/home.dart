@@ -1,5 +1,6 @@
 import 'package:delta/logc.dart';
 import 'package:delta/feedback.dart';
+import 'package:delta/settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,7 +60,11 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: const Text('Settings'),
               onTap: () {
-                // Handle menu item 2
+                // Handle Settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SetMen()),
+                );
               },
             ),
             ListTile(

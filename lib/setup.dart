@@ -36,7 +36,7 @@ class _SetState extends State<Set> {
         'firstName': firstName,
         'lastName': lastName,
         'admin': false,
-        'addr': addr,
+        'addr': [addr],
       });
 
       Navigator.pushReplacement(
