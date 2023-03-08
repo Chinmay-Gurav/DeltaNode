@@ -91,6 +91,8 @@ class _SignUpPageState extends State<SignUpPage> {
         String errorMessage;
         if (e.code == 'weak-password') {
           errorMessage = 'Password should be at least 6 characters';
+        } else if (e.code == 'invalid-email') {
+          errorMessage = 'Invalid E-mail Address!';
         } else {
           errorMessage = 'Sign up failed!';
         }
