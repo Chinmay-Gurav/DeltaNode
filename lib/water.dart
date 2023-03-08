@@ -73,9 +73,11 @@ class _WaterState extends State<Water> {
     );
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      String? addr = await getUserAddress(userinfo);
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -84,9 +86,11 @@ class _WaterState extends State<Water> {
         'timestamp': DateTime.now(),
         'type': 'water',
         'uname': userinfo,
+        'address': addr,
       });
 
       // Show a success message and go back to the previous screen
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -111,5 +115,14 @@ class _WaterState extends State<Water> {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     userinfo = pref.getString('uname');
     setState(() {});
+  }
+
+  final CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  Future<String> getUserAddress(String? username) async {
+    DocumentSnapshot snapshot = await usersCollection.doc(username).get();
+    String address = snapshot.get('addr');
+    return address;
   }
 }

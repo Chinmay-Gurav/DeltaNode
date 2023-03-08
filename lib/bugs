@@ -1,4 +1,16 @@
 Need to do: 
-1. user info store using shared_preferences
-2. pick image
-3. add addr
+
+logc module:-
+1. user info store using shared_preferences --> DONE
+2. pick image and take image
+3. save addr --> DONE
+4. add addr
+
+admin module:-
+
+feedback module:-
+
+login module:-
+
+forgot password
+firebase auth and firestore connectivity
