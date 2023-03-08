@@ -12,6 +12,7 @@ feedback module:-
 
 login module:-
 
-forgot password
-firebase auth and firestore connectivity
-hello
+1. forgot password
+2. firebase auth and firestore connectivity -->DONE
+
+3. exception handling during sign up
