@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Road extends StatefulWidget {
   const Road({super.key});
@@ -10,6 +10,13 @@ class Road extends StatefulWidget {
 }
 
 class _RoadState extends State<Road> {
+  String? userinfo;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   final _formKey = GlobalKey<FormState>();
   late String _subject;
   late String _description;
@@ -76,6 +83,7 @@ class _RoadState extends State<Road> {
         'description': _description,
         'timestamp': DateTime.now(),
         'type': 'road',
+        'username': userinfo,
       });
 
       // Show a success message and go back to the previous screen
@@ -97,5 +105,11 @@ class _RoadState extends State<Road> {
         ),
       );
     }
+  }
+
+  void getData() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    userinfo = pref.getString('uname');
+    setState(() {});
   }
 }

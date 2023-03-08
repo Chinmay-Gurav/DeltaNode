@@ -90,17 +90,17 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSquareButton(
               context, 'My Complaint Status', Icons.hourglass_bottom, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Logc()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const Logc()),
+            // );
           }),
           _buildSquareButton(context, 'Suggestion/Feedback', Icons.feedback,
               () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Logc()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const Logc()),
+            // );
           }),
         ],
       ),

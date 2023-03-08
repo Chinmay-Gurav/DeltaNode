@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Water extends StatefulWidget {
   const Water({super.key});
@@ -9,6 +10,13 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
+  String? userinfo;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   final _formKey = GlobalKey<FormState>();
   late String _subject;
   late String _description;
@@ -75,6 +83,7 @@ class _WaterState extends State<Water> {
         'description': _description,
         'timestamp': DateTime.now(),
         'type': 'water',
+        'uname': userinfo,
       });
 
       // Show a success message and go back to the previous screen
@@ -96,5 +105,11 @@ class _WaterState extends State<Water> {
         ),
       );
     }
+  }
+
+  void getData() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    userinfo = pref.getString('uname');
+    setState(() {});
   }
 }

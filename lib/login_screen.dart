@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delta/sign_up.dart';
 import 'package:delta/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     login(_usernameController.text, _passwordController.text);
+                    setData(_usernameController.text);
                   }
                 },
               ),
@@ -100,5 +102,10 @@ class _LoginScreenState extends State<LoginScreen> {
       // Error occurred while querying Firestore
       print('Error logging in: $error');
     });
+  }
+
+  Future<void> setData(userinfo) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('uname', userinfo);
   }
 }
