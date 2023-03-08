@@ -10,14 +10,6 @@ class Logc extends StatefulWidget {
 }
 
 class _LogcState extends State<Logc> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // Calculate the number of columns based on screen size

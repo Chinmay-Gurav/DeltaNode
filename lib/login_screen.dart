@@ -86,10 +86,6 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       try {
-        final userCredential = await _auth.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
         setData(_emailController.text.trim());
         print('Login successful');
         // Navigate to home page or set-up after successful login
