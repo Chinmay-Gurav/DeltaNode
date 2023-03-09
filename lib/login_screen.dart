@@ -10,6 +10,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -17,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
 
   bool _isLoading = false;
 
@@ -87,10 +87,12 @@ class _LoginPageState extends State<LoginPage> {
 
       try {
         setData(_emailController.text.trim());
+        // ignore: avoid_print
         print('Login successful');
         // Navigate to home page or set-up after successful login
         getto();
       } on FirebaseAuthException catch (e) {
+        // ignore: avoid_print
         print('Login failed: $e');
         // Display a snackbar with an error message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -120,17 +122,20 @@ class _LoginPageState extends State<LoginPage> {
 
       if (docSnapshot.exists) {
         // navigate to home
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else {
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Set()),
         );
       }
     } catch (e) {
+      // ignore: avoid_print
       print('Error getting field: $e');
     }
   }

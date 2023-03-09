@@ -6,6 +6,7 @@ class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignUpPageState createState() => _SignUpPageState();
 }
 
@@ -72,20 +73,25 @@ class _SignUpPageState extends State<SignUpPage> {
       });
 
       try {
+        // ignore: unused_local_variable
         final userCredential = await _auth.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
+        // ignore: avoid_print
         print('Sign up successful');
-        // TODO: Navigate to set-up page after successful sign-up
+        //Navigate to set-up page after successful sign-up
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
         );
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sign up Successful!')),
         );
       } on FirebaseAuthException catch (e) {
+        // ignore: avoid_print
         print('Sign up failed: $e');
         // Display a snackbar with an error message
         String errorMessage;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SetMen extends StatefulWidget {
@@ -33,15 +32,16 @@ class _SetMenState extends State<SetMen> {
 
     try {
       final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-      final userDoc = await userRef.get();
 
       await userRef.update({
         'addr': FieldValue.arrayUnion([_addressController.text]),
       });
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Address added successfully')),
       );
       _addressController.clear();
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(

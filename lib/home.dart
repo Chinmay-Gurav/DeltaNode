@@ -1,6 +1,6 @@
 import 'package:delta/logc.dart';
 import 'package:delta/feedback.dart';
-import 'package:delta/settings_menu.dart';
+import 'package:delta/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,19 +52,19 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: const Text('Your Account'),
+              title: const Text('Profile'),
               onTap: () {
                 // Handle menu item 1
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SetMen()),
+                );
               },
             ),
             ListTile(
               title: const Text('Settings'),
               onTap: () {
                 // Handle Settings
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SetMen()),
-                );
               },
             ),
             ListTile(
@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
                 await prefs.clear();
 
                 // Navigate the user back to the login screen
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacementNamed(context, '/main');
               },
             ),
