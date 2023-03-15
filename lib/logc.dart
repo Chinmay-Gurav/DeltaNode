@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:delta/road.dart';
 import 'package:delta/water.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Logc extends StatefulWidget {
   const Logc({super.key});
@@ -29,13 +30,21 @@ class _LogcState extends State<Logc> {
           _buildSquareButton(context, 'Road Dept', Icons.car_repair, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Road()),
+              PageTransition(
+                child: const Road(),
+                type: PageTransitionType
+                    .rightToLeft, // choose your transition type
+              ),
             );
           }),
           _buildSquareButton(context, 'Water Dept', Icons.water, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Water()),
+              PageTransition(
+                child: const Water(),
+                type: PageTransitionType
+                    .rightToLeft, // choose your transition type
+              ),
             );
           }),
         ],
