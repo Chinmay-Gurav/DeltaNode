@@ -5,6 +5,7 @@ import 'package:delta/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -67,8 +68,11 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpPage()),
+                        PageTransition(
+                          child: const SignUpPage(),
+                          type: PageTransitionType
+                              .rightToLeft, // choose your transition type
+                        ),
                       );
                     },
                     child: const Text('Sign-Up'),
