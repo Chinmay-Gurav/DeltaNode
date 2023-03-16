@@ -60,22 +60,31 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: const Text('Login'),
+                  SizedBox(
+                    height: 40,
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      child: const Text('Login'),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          child: const SignUpPage(),
-                          type: PageTransitionType
-                              .rightToLeft, // choose your transition type
-                        ),
-                      );
-                    },
-                    child: const Text('Sign-Up'),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 40,
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            child: const SignUpPage(),
+                            type: PageTransitionType
+                                .rightToLeft, // choose your transition type
+                          ),
+                        );
+                      },
+                      child: const Text('Sign-Up'),
+                    ),
                   ),
                 ],
               ),
