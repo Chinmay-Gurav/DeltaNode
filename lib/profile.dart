@@ -54,7 +54,7 @@ class _SetMenState extends State<SetMen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Submit Feedback'),
+        title: const Text('Your Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

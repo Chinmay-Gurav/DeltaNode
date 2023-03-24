@@ -3,6 +3,7 @@ import 'package:delta/feedback.dart';
 import 'package:delta/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,7 +93,11 @@ class _HomePageState extends State<HomePage> {
           _buildSquareButton(context, 'Log Complaint', Icons.edit_document, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Logc()),
+              PageTransition(
+                child: const Logc(),
+                type: PageTransitionType
+                    .rightToLeft, // choose your transition type
+              ),
             );
           }),
           _buildSquareButton(
@@ -106,7 +111,11 @@ class _HomePageState extends State<HomePage> {
               () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const FeedbackPage()),
+              PageTransition(
+                child: const FeedbackPage(),
+                type: PageTransitionType
+                    .rightToLeft, // choose your transition type
+              ),
             );
           }),
         ],
