@@ -86,15 +86,36 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       try {
-        setData(_emailController.text.trim());
-        // ignore: avoid_print
-        print('Login successful');
-        // Navigate to home page or set-up after successful login
-        getto();
+        // Authenticate user using email and password
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
+
+        setData(userCredential.user!.email!);
+
+        // Check if user exists in Firestore collection
+        final DocumentSnapshot docSnapshot =
+            await myCollectionRef.doc(userCredential.user!.email).get();
+
+        if (docSnapshot.exists) {
+          // navigate to home
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else {
+          // navigate to set-up
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Set()),
+          );
+        }
       } on FirebaseAuthException catch (e) {
-        // ignore: avoid_print
-        print('Login failed: $e');
-        // Display a snackbar with an error message
+        // Authentication failed
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Invalid email or password!')),
         );
