@@ -37,7 +37,8 @@ class _RoadState extends State<Road> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Subject'),
+                decoration: const InputDecoration(
+                    labelText: 'Subject', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a subject';
@@ -50,7 +51,8 @@ class _RoadState extends State<Road> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(
+                    labelText: 'Description', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a description';
@@ -59,6 +61,16 @@ class _RoadState extends State<Road> {
                 },
                 onSaved: (value) {
                   _description = value!;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              DropdownAddr(
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value;
+                  });
                 },
               ),
               const SizedBox(height: 16),
@@ -72,13 +84,6 @@ class _RoadState extends State<Road> {
           ),
         ),
       ),
-      bottomNavigationBar: DropdownAddr(
-        onChanged: (value) {
-          setState(() {
-            _selectedValue = value;
-          });
-        },
-      ),
     );
   }
 
@@ -86,7 +91,7 @@ class _RoadState extends State<Road> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      List addr = await getUserAddress(uid);
+      // List addr = await getUserAddress(uid); --->>not required....was just a temp_soln to take addr[0] as default.
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -126,12 +131,12 @@ class _RoadState extends State<Road> {
     setState(() {});
   }
 
-  final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
-
-  Future<List> getUserAddress(String? username) async {
-    DocumentSnapshot snapshot = await usersCollection.doc(username).get();
-    List address = snapshot.get('addr');
-    return address;
-  }
+  // final CollectionReference usersCollection =
+  //     FirebaseFirestore.instance.collection('users');
+  //
+  // Future<List> getUserAddress(String? username) async {
+  //   DocumentSnapshot snapshot = await usersCollection.doc(username).get();
+  //   List address = snapshot.get('addr');
+  //   return address;
+  // }  not required anymore - just a fn to get addr
 }

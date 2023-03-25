@@ -23,21 +23,25 @@ class _DropdownAddrState extends State<DropdownAddr> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-      value: _selectedValue,
-      items: _dropdownValues.map((value) {
-        return DropdownMenuItem(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          _selectedValue = value;
-        });
-        // Call the callback function with the selected value
-        widget.onChanged?.call(value!);
-      },
+    return InputDecorator(
+      decoration: const InputDecoration(
+          labelText: 'Select Your Address', border: OutlineInputBorder()),
+      child: DropdownButton(
+        value: _selectedValue,
+        items: _dropdownValues.map((value) {
+          return DropdownMenuItem(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            _selectedValue = value;
+          });
+          // Call the callback function with the selected value
+          widget.onChanged?.call(value!);
+        },
+      ),
     );
   }
 
