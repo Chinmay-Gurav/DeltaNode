@@ -21,6 +21,7 @@ class _RoadState extends State<Road> {
   final _formKey = GlobalKey<FormState>();
   late String _subject;
   late String _description;
+  late String _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,13 @@ class _RoadState extends State<Road> {
           ),
         ),
       ),
-      bottomNavigationBar: const DropdownAddr(),
+      bottomNavigationBar: DropdownAddr(
+        onChanged: (value) {
+          setState(() {
+            _selectedValue = value;
+          });
+        },
+      ),
     );
   }
 
@@ -88,7 +95,7 @@ class _RoadState extends State<Road> {
         'timestamp': DateTime.now(),
         'type': 'road',
         'user': uid,
-        'address': addr[0],
+        'address': _selectedValue,
       });
 
       // Show a success message and go back to the previous screen

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DropdownAddr extends StatefulWidget {
-  const DropdownAddr({Key? key}) : super(key: key);
+  final Function(String)? onChanged;
+  const DropdownAddr({Key? key, this.onChanged}) : super(key: key);
 
   @override
   State<DropdownAddr> createState() => _DropdownAddrState();
@@ -34,6 +35,8 @@ class _DropdownAddrState extends State<DropdownAddr> {
         setState(() {
           _selectedValue = value;
         });
+        // Call the callback function with the selected value
+        widget.onChanged?.call(value!);
       },
     );
   }
