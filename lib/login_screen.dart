@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
       } on FirebaseAuthException catch (e) {
         // Authentication failed
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid email or password!')),
+          SnackBar(content: Text('Invalid email or password!:$e')),
         );
       } finally {
         setState(() {
