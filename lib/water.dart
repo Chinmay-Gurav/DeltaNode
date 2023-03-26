@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ class Water extends StatefulWidget {
 
 class _WaterState extends State<Water> {
   String? uid;
+  File? _image;
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,6 @@ class _WaterState extends State<Water> {
   late String _subject;
   late String _description;
   late String _selectedValue;
-  late String imgURL;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +83,8 @@ class _WaterState extends State<Water> {
               ),
               // pick img from camera
               IconButton(
-                  onPressed: () async {
-                    ImagePicker ip = ImagePicker();
+                  onPressed: () {
+                    _getImage();
                   },
                   icon: const Icon(Icons.camera)),
               const SizedBox(height: 16),
@@ -107,38 +106,97 @@ class _WaterState extends State<Water> {
       _formKey.currentState!.save();
 
       // List addr = await getUserAddress(uid); --->>not required....was just a temp_soln to take addr[0] as default.
-
-      // Save the complaint to the Firestore database
-      FirebaseFirestore.instance.collection('complaints').add({
-        'subject': _subject,
-        'description': _description,
-        'timestamp': DateTime.now(),
-        'type': 'water',
-        'user': uid,
-        'address': _selectedValue,
-        'image': imgURL,
-      });
-
-      // Show a success message and go back to the previous screen
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Complaint submitted'),
-          content:
-              const Text('Your complaint has been submitted successfully.'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text('OK'),
+      if (_image != null) {
+        // Upload image to Firebase Storage
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('complaints/${DateTime.now().toString()}');
+        final uploadTask = storageRef.putFile(_image!);
+        // Display progress bar
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Container(
+              height: 50,
+              child: Center(
+                child: StreamBuilder(
+                  stream: uploadTask.snapshotEvents,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<TaskSnapshot> snapshot) {
+                    var event = snapshot.data;
+                    double? progressPercentage;
+                    if (event != null) {
+                      progressPercentage =
+                          event.bytesTransferred / event.totalBytes;
+                    }
+                    return CircularProgressIndicator(
+                      value: progressPercentage,
+                    );
+                  },
+                ),
+              ),
             ),
-          ],
-        ),
-      );
+          ),
+        );
+        // Wait for image upload to complete
+        await uploadTask.whenComplete(() => null);
+        // Get image URL from Firebase Storage and save it to Firestore
+        final imageUrl = await storageRef.getDownloadURL();
+        // Save the complaint to the Firestore database
+        FirebaseFirestore.instance.collection('complaints').add({
+          'subject': _subject,
+          'description': _description,
+          'timestamp': DateTime.now(),
+          'type': 'water',
+          'user': uid,
+          'address': _selectedValue,
+          'image': imageUrl,
+        });
+        // Show a success message and go back to the previous screen
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context); // Close progress bar dialog
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Complaint submitted'),
+            content:
+                const Text('Your complaint has been submitted successfully.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+      if (_image == null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No Image Found!')),
+        );
+      }
     }
+  }
+
+  Future<void> _getImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        // print('No image selected.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No Image Found!')),
+        );
+      }
+    });
   }
 
   void getData() async {
