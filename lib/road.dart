@@ -116,7 +116,7 @@ class _RoadState extends State<Road> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            content: Container(
+            content: SizedBox(
               height: 50,
               child: Center(
                 child: StreamBuilder(
