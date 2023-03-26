@@ -35,9 +35,10 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 55,
+              height: 150,
               decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   'Menu',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 32,
                   ),
                 ),
               ),
