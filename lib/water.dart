@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:delta/dropdown.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Water extends StatefulWidget {
   const Water({super.key});
@@ -20,6 +26,8 @@ class _WaterState extends State<Water> {
   final _formKey = GlobalKey<FormState>();
   late String _subject;
   late String _description;
+  late String _selectedValue;
+  late String imgURL;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +43,11 @@ class _WaterState extends State<Water> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Subject'),
+                decoration: const InputDecoration(
+                    labelText: 'Subject', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter the subject of your issue';
+                    return 'Please enter a subject';
                   }
                   return null;
                 },
@@ -48,10 +57,11 @@ class _WaterState extends State<Water> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(
+                    labelText: 'Description', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter a description of your issue!';
+                    return 'Please enter a description';
                   }
                   return null;
                 },
@@ -59,6 +69,25 @@ class _WaterState extends State<Water> {
                   _description = value!;
                 },
               ),
+              const SizedBox(
+                height: 16,
+              ),
+              DropdownAddr(
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              // pick img from camera
+              IconButton(
+                  onPressed: () async {
+                    ImagePicker ip = ImagePicker();
+                  },
+                  icon: const Icon(Icons.camera)),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
@@ -77,7 +106,7 @@ class _WaterState extends State<Water> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      List addr = await getUserAddress(uid);
+      // List addr = await getUserAddress(uid); --->>not required....was just a temp_soln to take addr[0] as default.
 
       // Save the complaint to the Firestore database
       FirebaseFirestore.instance.collection('complaints').add({
@@ -86,7 +115,8 @@ class _WaterState extends State<Water> {
         'timestamp': DateTime.now(),
         'type': 'water',
         'user': uid,
-        'address': addr[0],
+        'address': _selectedValue,
+        'image': imgURL,
       });
 
       // Show a success message and go back to the previous screen
@@ -117,12 +147,12 @@ class _WaterState extends State<Water> {
     setState(() {});
   }
 
-  final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
-
-  Future<List> getUserAddress(String? username) async {
-    DocumentSnapshot snapshot = await usersCollection.doc(username).get();
-    List address = snapshot.get('addr');
-    return address;
-  }
+  // final CollectionReference usersCollection =
+  //     FirebaseFirestore.instance.collection('users');
+  //
+  // Future<List> getUserAddress(String? username) async {
+  //   DocumentSnapshot snapshot = await usersCollection.doc(username).get();
+  //   List address = snapshot.get('addr');
+  //   return address;
+  // }  not required anymore - just a fn to get addr
 }
