@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delta/dropdown.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Road extends StatefulWidget {
   const Road({super.key});
@@ -22,6 +27,7 @@ class _RoadState extends State<Road> {
   late String _subject;
   late String _description;
   late String _selectedValue;
+  late String imgURL;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +79,15 @@ class _RoadState extends State<Road> {
                   });
                 },
               ),
+              const SizedBox(
+                height: 16,
+              ),
+              // pick img from camera
+              IconButton(
+                  onPressed: () async {
+                    ImagePicker ip = ImagePicker();
+                  },
+                  icon: const Icon(Icons.camera)),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
@@ -101,6 +116,7 @@ class _RoadState extends State<Road> {
         'type': 'road',
         'user': uid,
         'address': _selectedValue,
+        'image': imgURL,
       });
 
       // Show a success message and go back to the previous screen
