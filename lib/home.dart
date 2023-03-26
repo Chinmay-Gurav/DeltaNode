@@ -35,10 +35,9 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 80,
+              height: 55,
               decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
@@ -150,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
             ),
           ),
