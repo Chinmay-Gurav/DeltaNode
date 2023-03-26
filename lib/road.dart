@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -106,43 +105,74 @@ class _RoadState extends State<Road> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // List addr = await getUserAddress(uid); --->>not required....was just a temp_soln to take addr[0] as default.
-      if (_image != null) {
-        // Upload image to Firebase Storage
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('complaints/${DateTime.now().toString()}');
-        final uploadTask = storageRef.putFile(_image!);
-        await uploadTask.whenComplete(() => null);
-        // Get image URL from Firebase Storage and save it to Firestore
-        final imageUrl = await storageRef.getDownloadURL();
-        // Save the complaint to the Firestore database
-        FirebaseFirestore.instance.collection('complaints').add({
-          'subject': _subject,
-          'description': _description,
-          'timestamp': DateTime.now(),
-          'type': 'road',
-          'user': uid,
-          'address': _selectedValue,
-          'image': imageUrl,
-        });
-        // Show a success message and go back to the previous screen
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Complaint submitted'),
-            content:
-                const Text('Your complaint has been submitted successfully.'),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const AlertDialog(
+          content: SizedBox(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ),
+      );
+
+      try {
+        if (_image != null) {
+          // Upload image to Firebase Storage
+          final storageRef = FirebaseStorage.instance
+              .ref()
+              .child('complaints/${DateTime.now().toString()}');
+          final uploadTask = storageRef.putFile(_image!);
+          await uploadTask.whenComplete(() => null);
+          // Get image URL from Firebase Storage and save it to Firestore
+          final imageUrl = await storageRef.getDownloadURL();
+          // Save the complaint to the Firestore database
+          await FirebaseFirestore.instance.collection('complaints').add({
+            'subject': _subject,
+            'description': _description,
+            'timestamp': DateTime.now(),
+            'type': 'road',
+            'user': uid,
+            'address': _selectedValue,
+            'image': imageUrl,
+          });
+          // Show a success message and go back to the previous screen
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Complaint submitted'),
+              content:
+                  const Text('Your complaint has been submitted successfully.'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (_image == null) {
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No Image Found!')),
+          );
+        }
+      } catch (error) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred: ${error.toString()}'),
           ),
         );
       }
@@ -157,7 +187,10 @@ class _RoadState extends State<Road> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        // print('No image selected.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No Image Found!')),
+        );
       }
     });
   }
