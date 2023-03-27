@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 12,
+                    fontSize: 11.5,
                   ),
             ),
           ),
