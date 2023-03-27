@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delta/dropdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:delta/subjects.dart';
 
 class Water extends StatefulWidget {
   const Water({super.key});
@@ -41,17 +42,15 @@ class _WaterState extends State<Water> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Subject', border: OutlineInputBorder()),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a subject';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _subject = value!;
+              const SizedBox(
+                height: 16,
+              ),
+              DropdownSub(
+                type: 'water',
+                onChanged: (value) {
+                  setState(() {
+                    _subject = value;
+                  });
                 },
               ),
               const SizedBox(height: 16),
@@ -116,7 +115,7 @@ class _WaterState extends State<Water> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            content: Container(
+            content: SizedBox(
               height: 50,
               child: Center(
                 child: StreamBuilder(
@@ -151,6 +150,7 @@ class _WaterState extends State<Water> {
           'user': uid,
           'address': _selectedValue,
           'image': imageUrl,
+          'status': "pending",
         });
         // Show a success message and go back to the previous screen
         // ignore: use_build_context_synchronously
