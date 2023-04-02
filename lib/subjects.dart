@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DropdownSub extends StatefulWidget {
   final Function(String)? onChanged;
@@ -18,11 +17,6 @@ class _DropdownSubState extends State<DropdownSub> {
   String? uid;
 
   @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
@@ -58,7 +52,6 @@ class _DropdownSubState extends State<DropdownSub> {
   }
 
   Future<void> getData() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
     _loadDropdownValues();
     setState(() {});
   }

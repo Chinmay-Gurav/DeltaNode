@@ -4,6 +4,7 @@ import 'package:delta/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:delta/my_comp.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -102,10 +103,10 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSquareButton(
               context, 'My Complaint Status', Icons.hourglass_bottom, () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const Logc()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyComplaintsPage()),
+            );
           }),
           _buildSquareButton(context, 'Suggestion/Feedback', Icons.feedback,
               () {
