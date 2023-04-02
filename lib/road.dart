@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:delta/dropdown.dart';
+import 'package:delta/Widgets/dropdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:delta/subjects.dart';
+import 'package:delta/Widgets/subjects.dart';
 
 class Road extends StatefulWidget {
   const Road({super.key});
