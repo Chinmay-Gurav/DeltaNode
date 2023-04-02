@@ -63,7 +63,7 @@ class _MyComplaintsPageState extends State<MyComplaintsPage> {
                     ),
                   ),
                 ),
-                trailing: Text(complaint['status']),
+                trailing: Text(complaint['address']),
               );
             },
           );
