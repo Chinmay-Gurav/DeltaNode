@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:delta/status.dart';
 
 class MyComplaintsPage extends StatefulWidget {
   const MyComplaintsPage({super.key});
@@ -40,30 +41,43 @@ class _MyComplaintsPageState extends State<MyComplaintsPage> {
             itemBuilder: (context, index) {
               var complaint = snapshot.data?.docs[index];
 
-              return ListTile(
-                title: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    complaint!['subject'],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
+              return GestureDetector(
+                onTap: () {
+                  // Navigate to the status page when the user taps on the ListTile
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Stat(
+                        complaintId: complaint.id,
+                      ),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  title: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      complaint!['subject'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                ),
-                subtitle: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    complaint['description'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
+                  subtitle: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      complaint['description'],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
+                  trailing: Text(complaint['type']),
                 ),
-                trailing: Text(complaint['address']),
               );
             },
           );
