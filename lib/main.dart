@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
   String? logged;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getLogData();
   }

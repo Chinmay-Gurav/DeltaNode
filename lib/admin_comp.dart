@@ -61,45 +61,48 @@ class _AdminState extends State<Admin> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Water Complaints',
+                  'Unresolved Complaints',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: waterComplaints.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var complaint = waterComplaints[index];
-                  return ListTile(
-                    title: Text(complaint.complaintDescription),
-                    subtitle: Text(complaint.complaintLocation),
-                    trailing: Text(complaint.complaintfrom),
-                  );
-                },
+              ExpansionTile(
+                title: const Text('Water Complaints'),
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: waterComplaints.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var complaint = waterComplaints[index];
+                      return ListTile(
+                        title: Text(complaint.complaintDescription),
+                        subtitle: Text(complaint.complaintLocation),
+                        trailing: Text(complaint.complaintfrom),
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  'Road Complaints',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
               const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: roadComplaints.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var complaint = roadComplaints[index];
-                  return ListTile(
-                    title: Text(complaint.complaintDescription),
-                    subtitle: Text(complaint.complaintLocation),
-                    trailing: Text(complaint.complaintfrom),
-                  );
-                },
+              ExpansionTile(
+                title: const Text('Road Complaints'),
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: roadComplaints.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var complaint = roadComplaints[index];
+                      return ListTile(
+                        title: Text(complaint.complaintDescription),
+                        subtitle: Text(complaint.complaintLocation),
+                        trailing: Text(complaint.complaintfrom),
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
             ],

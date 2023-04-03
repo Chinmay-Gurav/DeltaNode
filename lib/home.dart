@@ -1,4 +1,4 @@
-import 'package:delta/admin.dart';
+import 'package:delta/admin_comp.dart';
 import 'package:delta/model/firebasehelper.dart';
 import 'package:delta/logc.dart';
 import 'package:delta/feedback.dart';
