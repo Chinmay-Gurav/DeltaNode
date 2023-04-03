@@ -3,6 +3,7 @@ import 'package:delta/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:delta/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,8 +11,21 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String? logged;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLogData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +34,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      initialRoute: (logged == null) ? '/login' : '/main',
       routes: {
         '/login': (context) => const LoginPage(),
         '/main': (context) => const MyApp(),
       },
     );
+  }
+
+  void getLogData() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    logged = sp.getString('LoggedIn');
+    setState(() {});
   }
 }

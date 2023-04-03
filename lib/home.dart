@@ -1,3 +1,5 @@
+import 'package:delta/admin.dart';
+import 'package:delta/model/firebasehelper.dart';
 import 'package:delta/logc.dart';
 import 'package:delta/feedback.dart';
 import 'package:delta/profile.dart';
@@ -5,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:delta/my_comp.dart';
+
+import 'model/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +21,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String? uid;
+  User? user;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Calculate the number of columns based on screen size
@@ -119,6 +131,20 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           }),
+          Visibility(
+            visible: (user == null) ? false : (user!.admin),
+            child: _buildSquareButton(
+                context, 'Admin Panel', Icons.admin_panel_settings, () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: const Admin(),
+                  type: PageTransitionType
+                      .rightToLeft, // choose your transition type
+                ),
+              );
+            }),
+          ),
         ],
       ),
     );
@@ -158,5 +184,12 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void getData() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    uid = pref.getString('uid');
+    user = await FireBaseHelper.getUser(uid!);
+    setState(() {});
   }
 }

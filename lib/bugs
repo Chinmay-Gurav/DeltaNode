@@ -1,6 +1,6 @@
 Need to do: 
 <!-- ---------------------------------------------------------------------------------------------------- -->
-logc module:-
+
 1. user info store using shared_preferences     -->DONE
 2. pick image                                   -->
 2. take image                                   -->DONE
@@ -8,9 +8,9 @@ logc module:-
 4. add addr                                     -->DONE
 5. addr dropdown                                -->DONE
 6. subject as dropdown                          -->DONE
+7. if admin admin panel                         -->
 
-<!-- ----------------------------------------------------------------------------------------------------- -->
-admin module:-
+
 <!-- ----------------------------------------------------------------------------------------------------- -->
 feedback module:-
 add suggestion to add problems
