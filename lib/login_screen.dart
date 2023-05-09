@@ -156,9 +156,6 @@ class _LoginPageState extends State<LoginPage> {
 
       if (docSnapshot.exists) {
         // navigate to home
-        SharedPreferences sp = await SharedPreferences.getInstance();
-        sp.setString('LoggedIn', _emailController.text);
-
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,

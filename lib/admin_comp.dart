@@ -25,6 +25,9 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final TextEditingController _searchController = TextEditingController();
+  List<Complaint> _originalRoadComplaints = [];
+  List<Complaint> _roadComplaints = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +54,12 @@ class _AdminState extends State<Admin> {
           var waterComplaints = complaints
               .where((complaint) => complaint.complaintType == 'water')
               .toList();
-          var roadComplaints = complaints
+
+          // Store the original list of road complaints
+          _originalRoadComplaints = complaints
               .where((complaint) => complaint.complaintType == 'road')
               .toList();
+          _roadComplaints = _originalRoadComplaints;
 
           return ListView(
             children: <Widget>[
@@ -89,12 +95,34 @@ class _AdminState extends State<Admin> {
               ExpansionTile(
                 title: const Text('Road Complaints'),
                 children: [
+                  TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search road complaints',
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    onChanged: (value) {
+                      _roadComplaints = [];
+                      setState(() {
+                        if (value.isNotEmpty) {
+                          _roadComplaints = _originalRoadComplaints
+                              .where((complaint) => complaint
+                                  .complaintDescription
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()))
+                              .toList();
+                        } else {
+                          _roadComplaints = _originalRoadComplaints;
+                        }
+                      });
+                    },
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: roadComplaints.length,
+                    itemCount: _roadComplaints.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var complaint = roadComplaints[index];
+                      var complaint = _roadComplaints[index];
                       return ListTile(
                         title: Text(complaint.complaintDescription),
                         subtitle: Text(complaint.complaintLocation),
@@ -104,7 +132,6 @@ class _AdminState extends State<Admin> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
             ],
           );
         },
