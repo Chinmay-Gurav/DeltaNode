@@ -54,55 +54,141 @@ class _SetState extends State<Set> {
       appBar: AppBar(
         title: const Text('Set Up Account'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(
-                  labelText: 'First Name',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Last Name',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your last name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _addrController,
-                decoration: const InputDecoration(
-                  labelText: 'Address/Colony',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your Addr/Colony';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Set Up Account'),
-              ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue.shade200,
+              Colors.blue.shade400,
             ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20.0),
+                const Text(
+                  'Welcome to Zimmedar Nagarik!',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20.0),
+                TextFormField(
+                  controller: _firstNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'First Name',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                TextFormField(
+                  controller: _lastNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your last name';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                TextFormField(
+                  controller: _addrController,
+                  decoration: const InputDecoration(
+                    labelText: 'Address/Colony',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Addr/Colony';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20.0),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 16.0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    elevation: 5.0,
+                  ),
+                  child: const Text(
+                    'Set Up Account',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                        color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
