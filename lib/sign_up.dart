@@ -55,6 +55,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Text(
+                        "Take the first step towards being a more responsible citizen by registering yourself.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
