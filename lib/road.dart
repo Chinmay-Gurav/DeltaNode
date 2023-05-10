@@ -81,11 +81,19 @@ class _RoadState extends State<Road> {
                 height: 16,
               ),
               // pick img from camera
+              const Text(
+                "Add Picture",
+              ),
               IconButton(
                   onPressed: () {
                     _getImage();
                   },
                   icon: const Icon(Icons.camera)),
+              if (_image != null)
+                const Text(
+                  "Picture Taken!",
+                  style: TextStyle(color: Colors.green),
+                ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {

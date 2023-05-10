@@ -3,6 +3,7 @@ import 'package:delta/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:delta/login_screen.dart';
+import 'package:delta/loading_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +12,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // ignore: use_key_in_widget_constructors
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      home: const LoadingScreen(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/main': (context) => const MyApp(),

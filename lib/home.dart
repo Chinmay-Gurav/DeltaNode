@@ -76,12 +76,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                // Handle Settings
-              },
-            ),
-            ListTile(
               title: const Text('Logout'),
               onTap: () async {
                 // Handle LogOut
