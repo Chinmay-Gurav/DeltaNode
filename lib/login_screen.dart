@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:page_transition/page_transition.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -26,67 +26,99 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Sign-in'),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _emailController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 40,
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: _login,
-                      child: const Text('Login'),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 40,
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            child: const SignUpPage(),
-                            type: PageTransitionType
-                                .rightToLeft, // choose your transition type
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 40),
+                      const Image(
+                        image: AssetImage('assets/images/zmnag.jpg'),
+                        height: 100,
+                        width: 100,
+                      ),
+                      const SizedBox(height: 40),
+                      const Text(
+                        'Zimmedar Nagarik',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 40),
+                      TextFormField(
+                        controller: _emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _passwordController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      ElevatedButton(
+                        onPressed: _login,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                        );
-                      },
-                      child: const Text('Sign-Up'),
-                    ),
+                        ),
+                        child: const Text('Login'),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              child: const SignUpPage(),
+                              type: PageTransitionType.rightToLeft,
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text('Sign-Up'),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
     );
@@ -99,7 +131,6 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       try {
-        // Authenticate user using email and password
         final UserCredential userCredential =
             await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
@@ -108,19 +139,16 @@ class _LoginPageState extends State<LoginPage> {
 
         setData(userCredential.user!.email!);
 
-        // Check if user exists in Firestore collection
         final DocumentSnapshot docSnapshot =
             await myCollectionRef.doc(userCredential.user!.email).get();
 
         if (docSnapshot.exists) {
-          // navigate to home
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
           );
         } else {
-          // navigate to set-up
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
             context,
@@ -128,7 +156,6 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       } on FirebaseAuthException catch (e) {
-        // Authentication failed
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Invalid email or password!:$e')),
         );
@@ -145,7 +172,6 @@ class _LoginPageState extends State<LoginPage> {
     pref.setString('uid', useremail);
   }
 
-// navigation to set-up or home??
   final CollectionReference myCollectionRef =
       FirebaseFirestore.instance.collection('users');
 
@@ -155,7 +181,6 @@ class _LoginPageState extends State<LoginPage> {
           await myCollectionRef.doc(_emailController.text.trim()).get();
 
       if (docSnapshot.exists) {
-        // navigate to home
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
