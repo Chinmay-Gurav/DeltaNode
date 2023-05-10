@@ -52,10 +52,12 @@ class _AdminState extends State<Admin> {
             length: 2,
             child: Scaffold(
               appBar: const TabBar(
+                labelColor: Colors.black,
                 tabs: [
                   Tab(text: 'Water Complaints'),
                   Tab(text: 'Road Complaints'),
                 ],
+                indicatorColor: Colors.black,
               ),
               body: TabBarView(
                 children: [
