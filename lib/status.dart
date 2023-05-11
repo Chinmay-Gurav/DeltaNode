@@ -17,9 +17,9 @@ class Stat extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               StatusItem(
                 icon: Icons.check_circle_outline,
                 label: 'Complaint Received',
@@ -28,9 +28,9 @@ class Stat extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               StatusItem(
                 icon: Icons.cancel_outlined,
                 label: 'Service Man Allotted',
@@ -39,9 +39,9 @@ class Stat extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               StatusItem(
                 icon: Icons.cancel_outlined,
                 label: 'Out For Service',
@@ -50,9 +50,9 @@ class Stat extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               StatusItem(
                 icon: Icons.cancel_outlined,
                 label: 'Resolved',

@@ -24,7 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child:
@@ -32,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
+          children: [
             Image(
               image: AssetImage('assets/images/zmnag.jpg'),
               height: 100,
